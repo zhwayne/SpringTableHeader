@@ -8,7 +8,7 @@ SpringTableHeaderView *header = [SpringTableHeaderView new];
 header.contentView.backgroundColor = UIColor.greenColor;
 header.intrinsicContentHeight = 0;
 
-[scrollView addSubview:header];
+[scrollView setTableHeaderView:header];
 ```
 
 ![](./bgColor.gif)
@@ -24,7 +24,7 @@ SpringTableHeaderView *header = [SpringTableHeaderView new];
 header.contentView = imgView;
 header.intrinsicContentHeight = 200;
 
-[scrollView addSubview:header];
+[scrollView setTableHeaderView:header];
 ```
 
 ![](./scale.gif)
