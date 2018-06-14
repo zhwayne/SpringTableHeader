@@ -3,7 +3,7 @@ SpringTableHeader 是一个非常基础的 UIScrollView 的头部弹性视图，
 
 1. 给 scrollview 头部弹性空间设置背景色；
 
-```
+``` objc
 SpringTableHeaderView *header = [SpringTableHeaderView new];
 header.contentView.backgroundColor = UIColor.greenColor;
 header.intrinsicContentHeight = 0;
@@ -12,7 +12,7 @@ header.intrinsicContentHeight = 0;
 ```
 2. 给 scrollview 添加头部背景图片放大功能；
 
-```
+``` objc
 UIImageView *imgView = [[UIImageView alloc] initWithImage:img];
 imgView.clipsToBounds = YES;
 imgView.contentMode = UIViewContentModeScaleAspectFill;
