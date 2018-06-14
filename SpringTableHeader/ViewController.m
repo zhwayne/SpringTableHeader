@@ -29,9 +29,8 @@
     SpringTableHeaderView *header = [SpringTableHeaderView new];
     header.contentView = imgView;
     header.intrinsicContentHeight = 200;
-    header.backgroundColor = UIColor.greenColor;
     
-    [self.tableView addSubview:header];
+    [self.tableView setTableHeaderView:header];
 }
 
 

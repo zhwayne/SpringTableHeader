@@ -25,7 +25,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.clipsToBounds = YES;
+        self.clipsToBounds = NO;
         self.contentView = [UIView new];
     }
     return self;
@@ -33,17 +33,12 @@
 
 - (void)setContentView:(UIView *)contentView
 {
+    if (contentView == nil)
+        return;
+    
     [_contentView removeFromSuperview];
     _contentView = contentView;
-    if (_contentView) {
-        [self addSubview:_contentView];
-    }
-}
-
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    _contentView.frame = self.bounds;
+    [self addSubview:_contentView];
 }
 
 - (void)willMoveToSuperview:(UIView *)newSuperview
@@ -51,12 +46,7 @@
     [super willMoveToSuperview:newSuperview];
     
     if (newSuperview == nil) {
-        UIScrollView *scrollView = (UIScrollView *)self.superview;
-        UIEdgeInsets contentInset = scrollView.contentInset;
-        contentInset.top -= _intrinsicContentHeight;
-        scrollView.contentInset = contentInset;
         [self.superview removeObserver:self forKeyPath:@"contentOffset"];
-        
         return;
     }
     
@@ -71,26 +61,52 @@
     
     self.frame = CGRectMake(0, 0, newSuperview.frame.size.width, _intrinsicContentHeight);
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    UIScrollView *scrollView = (UIScrollView *)newSuperview;
-    UIEdgeInsets contentInset = scrollView.contentInset;
-    contentInset.top += _intrinsicContentHeight;
-    scrollView.contentInset = contentInset;
     
-    [scrollView addObserver:self
-                 forKeyPath:@"contentOffset"
-                    options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
-                    context:nil];
+    [newSuperview addObserver:self
+                   forKeyPath:@"contentOffset"
+                      options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+                      context:nil];
+}
+
+- (void)didMoveToSuperview
+{
+    [super didMoveToSuperview];
+    [self.superview sendSubviewToBack:self];
+}
+
+- (BOOL)_isSelfAtBottomInSuperView
+{
+    NSArray *subviews = self.superview.subviews;
+    
+    if (subviews.count == 0)
+        return NO;
+    
+    return subviews[0] == self;
+}
+
+- (void)_updateContentViewFrame
+{
+    UIScrollView *scrollView = (UIScrollView *)self.superview;
+    CGRect frame = self.contentView.frame;
+    
+    frame.origin.x = 0;
+    frame.size.width = self.bounds.size.width;
+    
+    frame.size.height = -scrollView.contentOffset.y + _intrinsicContentHeight;
+    frame.origin.y = self.bounds.size.height - frame.size.height;
+    
+    self.contentView.frame = frame;
 }
 
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
 {
     CGPoint offset = [change[NSKeyValueChangeNewKey] CGPointValue];
-    if (offset.y < 0) {
-        CGRect frame = self.frame;
-        frame.origin.y = offset.y;
-        frame.size.height = -offset.y;
-        self.frame = frame;
+    if (offset.y <= 0) {
+        [self _updateContentViewFrame];
+        if (![self _isSelfAtBottomInSuperView]) {
+            [self.superview sendSubviewToBack:self];
+        }
     }
 }
 
