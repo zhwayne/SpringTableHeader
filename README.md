@@ -11,7 +11,7 @@ header.intrinsicContentHeight = 0;
 [scrollView addSubview:header];
 ```
 
-![](bgColor.gif)
+![](./bgColor.gif)
 
 2. 给 scrollview 添加头部背景图片放大功能；
 
@@ -27,6 +27,6 @@ header.intrinsicContentHeight = 200;
 [scrollView addSubview:header];
 ```
 
-![](scale.gif)
+![](./scale.gif)
 
 
