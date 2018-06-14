@@ -27,9 +27,8 @@
     imgView.contentMode = UIViewContentModeScaleAspectFill;
     
     SpringTableHeaderView *header = [SpringTableHeaderView new];
-    header.contentView = imgView;
-    header.intrinsicContentHeight = 200;
-    header.backgroundColor = UIColor.greenColor;
+    header.contentView.backgroundColor = UIColor.greenColor;
+    header.intrinsicContentHeight = 0;
     
     [self.tableView addSubview:header];
 }

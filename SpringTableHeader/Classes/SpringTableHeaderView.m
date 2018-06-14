@@ -26,7 +26,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.clipsToBounds = YES;
-        _contentView = [UIView new];
+        self.contentView = [UIView new];
     }
     return self;
 }
