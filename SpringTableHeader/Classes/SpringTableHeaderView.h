@@ -10,8 +10,12 @@
 
 @interface SpringTableHeaderView : UIView
 
+/**
+ Header 的固有高度，应在在添加视图之前设置这个值。
+ 默认为 0.
+ */
 @property (nonatomic, assign) CGFloat intrinsicContentHeight;
 
-@property (nonatomic, strong) UIView *contentView;
+@property (nonatomic, strong) __kindof UIView *contentView;
 
 @end
