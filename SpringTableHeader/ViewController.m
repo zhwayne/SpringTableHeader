@@ -20,13 +20,17 @@
     [super viewDidLoad];
     self.tableView.dataSource = self;
     
-    UIImage *img = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"1" ofType:@"jpeg"]];
+    UIImage *img = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"1"
+                                                                                    ofType:@"jpeg"]];
+    UIImageView *imgView = [[UIImageView alloc] initWithImage:img];
+    imgView.clipsToBounds = YES;
+    imgView.contentMode = UIViewContentModeScaleAspectFill;
     
     SpringTableHeaderView *header = [SpringTableHeaderView new];
-    header.layer.contents = (__bridge id)(img.CGImage);
-    header.layer.contentsGravity = kCAGravityResizeAspectFill;
+    header.contentView = imgView;
     header.intrinsicContentHeight = 200;
     header.backgroundColor = UIColor.greenColor;
+    
     [self.tableView addSubview:header];
 }
 

@@ -12,4 +12,6 @@
 
 @property (nonatomic, assign) CGFloat intrinsicContentHeight;
 
+@property (nonatomic, strong) UIView *contentView;
+
 @end

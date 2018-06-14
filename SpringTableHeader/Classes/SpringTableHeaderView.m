@@ -26,16 +26,24 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.clipsToBounds = YES;
+        _contentView = [UIView new];
     }
     return self;
 }
 
-- (CGSize)intrinsicContentSize
+- (void)setContentView:(UIView *)contentView
 {
-    CGSize size = [super intrinsicContentSize];
-    size.height = MAX(size.height, _intrinsicContentHeight);
-    
-    return size;
+    [_contentView removeFromSuperview];
+    _contentView = contentView;
+    if (_contentView) {
+        [self addSubview:_contentView];
+    }
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    _contentView.frame = self.bounds;
 }
 
 - (void)willMoveToSuperview:(UIView *)newSuperview
