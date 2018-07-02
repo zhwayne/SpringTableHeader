@@ -13,7 +13,7 @@
 @protocol SpringTableHeaderViewDelegate <NSObject>
 
 @optional
-- (void)headerView:(SpringTableHeaderView *)headView didScaled:(CGFloat)scale;
+- (void)headerView:(SpringTableHeaderView *)headView percentageOfStretching:(CGFloat)percentage;
 
 @end
 

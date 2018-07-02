@@ -39,9 +39,9 @@
 }
 
 
-- (void)headerView:(SpringTableHeaderView *)headView didScaled:(CGFloat)scale
+- (void)headerView:(SpringTableHeaderView *)headView percentageOfStretching:(CGFloat)percentage
 {
-    CGFloat alpha = 1 - MIN(scale, 1);
+    CGFloat alpha = 1 - MIN(percentage, 1);
     self.view.backgroundColor = [[UIColor redColor] colorWithAlphaComponent:alpha];
 }
 
