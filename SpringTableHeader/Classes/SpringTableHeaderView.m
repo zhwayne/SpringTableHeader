@@ -106,7 +106,7 @@
     
     if (offset.y <= 0) {
         percentage = fabs(offset.y) / distance;
-        [self _callDelegateWithScale:percentage];
+        [self _callDelegateWithPercentage:percentage];
         
         [self _updateContentViewFrame];
         if (![self _isSelfAtBottomInSuperView]) {
@@ -114,13 +114,13 @@
         }
     } else if (percentage != 0) {
         percentage = 0;
-        [self _callDelegateWithScale:percentage];
+        [self _callDelegateWithPercentage:percentage];
     }
     
     
 }
 
-- (void)_callDelegateWithScale:(CGFloat)percentage
+- (void)_callDelegateWithPercentage:(CGFloat)percentage
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(headerView:percentageOfStretching:)]) {
         [self.delegate headerView:self percentageOfStretching:percentage];
