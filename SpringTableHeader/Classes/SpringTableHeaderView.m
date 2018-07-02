@@ -102,11 +102,28 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
 {
     CGPoint offset = [change[NSKeyValueChangeNewKey] CGPointValue];
+    CGFloat scale = 0, distance = _intrinsicContentHeight;
+    
     if (offset.y <= 0) {
+        scale = fabs(offset.y) / distance;
+        [self _callDelegateWithScale:scale];
+        
         [self _updateContentViewFrame];
         if (![self _isSelfAtBottomInSuperView]) {
             [self.superview sendSubviewToBack:self];
         }
+    } else if (scale != 0) {
+        scale = 0;
+        [self _callDelegateWithScale:scale];
+    }
+    
+    
+}
+
+- (void)_callDelegateWithScale:(CGFloat)scale
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(headerView:didScaled:)]) {
+        [self.delegate headerView:self didScaled:scale];
     }
 }
 

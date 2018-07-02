@@ -9,12 +9,16 @@
 #import "ViewController.h"
 #import "SpringTableHeaderView.h"
 
-@interface ViewController () <UITableViewDataSource>
+@interface ViewController () <UITableViewDataSource, SpringTableHeaderViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
 @implementation ViewController
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -28,9 +32,17 @@
     
     SpringTableHeaderView *header = [SpringTableHeaderView new];
     header.contentView = imgView;
+    header.delegate = self;
     header.intrinsicContentHeight = 200;
     
     [self.tableView setTableHeaderView:header];
+}
+
+
+- (void)headerView:(SpringTableHeaderView *)headView didScaled:(CGFloat)scale
+{
+    CGFloat alpha = 1 - MIN(scale, 1);
+    self.view.backgroundColor = [[UIColor redColor] colorWithAlphaComponent:alpha];
 }
 
 

@@ -8,7 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
+@class SpringTableHeaderView;
+
+@protocol SpringTableHeaderViewDelegate <NSObject>
+
+@optional
+- (void)headerView:(SpringTableHeaderView *)headView didScaled:(CGFloat)scale;
+
+@end
+
+/**
+ SpringTableHeaderView 作为一个容器视图，其内容需要 contentView 进行填充。
+ */
 @interface SpringTableHeaderView : UIView
+
+@property (nonatomic, weak) id<SpringTableHeaderViewDelegate> delegate;
 
 /**
  Header 的固有高度，应在在添加视图之前设置这个值。
